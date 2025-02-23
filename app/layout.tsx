@@ -1,15 +1,14 @@
 import {
   ClerkProvider,
   SignInButton,
-  SignedIn,
   SignedOut,
-  UserButton
-} from '@clerk/nextjs'
-import './globals.css'
-import React from 'react'
+} from "@clerk/nextjs";
+import "./globals.css";
+import React from "react";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+// import { ThemeProvider } from "@/context/Theme";
 
 const inter = localFont({
   src: "./fonts/InterVF.ttf",
@@ -32,28 +31,33 @@ export const metadata: Metadata = {
   },
 };
 
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <ClerkProvider
-      appearance={{
-        elements: {
-          formButtonPrimary: 'primary-gradient',
-          footerActionLink: 'primary-text-gradient hover:text-primary-500'
-        }
-      }}  
-    >
-      <html lang="en">
-        <body className={`${inter.className} ${spaceGrotesk.variable} antialiased`}>
+    <html lang="en">
+      <body
+        className={`${inter.className} ${spaceGrotesk.variable} antialiased`}
+      >
+        <ClerkProvider
+          // appearance={{
+          //   elements: {
+          //     formButtonPrimary: "primary-gradient",
+          //     footerActionLink: "primary-text-gradient hover:text-primary-500",
+          //   },
+          // }}
+        >
           <SignedOut>
             <SignInButton />
           </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
-  )
+          
+          {/* <ThemeProvider> */}
+            {children}
+          {/* </ThemeProvider> */}
+        </ClerkProvider>
+      </body>
+    </html>
+  );
 }

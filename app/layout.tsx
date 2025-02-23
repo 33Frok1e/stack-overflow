@@ -8,7 +8,7 @@ import React from "react";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-// import { ThemeProvider } from "@/context/Theme";
+import { ThemeProvider } from "@/context/Theme";
 
 const inter = localFont({
   src: "./fonts/InterVF.ttf",
@@ -42,20 +42,20 @@ export default function RootLayout({
         className={`${inter.className} ${spaceGrotesk.variable} antialiased`}
       >
         <ClerkProvider
-          // appearance={{
-          //   elements: {
-          //     formButtonPrimary: "primary-gradient",
-          //     footerActionLink: "primary-text-gradient hover:text-primary-500",
-          //   },
-          // }}
+          appearance={{
+            elements: {
+              formButtonPrimary: "primary-gradient",
+              footerActionLink: "primary-text-gradient hover:text-primary-500",
+            },
+          }}
         >
           <SignedOut>
             <SignInButton />
           </SignedOut>
           
-          {/* <ThemeProvider> */}
+          <ThemeProvider>
             {children}
-          {/* </ThemeProvider> */}
+          </ThemeProvider>
         </ClerkProvider>
       </body>
     </html>

@@ -1,4 +1,5 @@
 import Filter from '@/components/filters/Filter'
+import HomeFilter from '@/components/filters/HomeFilter'
 import LocalSearch from '@/components/navigation/search/LocalSearch'
 import { Button } from '@/components/ui/button'
 import { HomePageFilters } from '@/constants/filters'
@@ -32,6 +33,8 @@ const Home = () => {
           containerClasses='hidden max-md:flex'
         />
       </div>
+
+      <HomeFilter />
     </>
   )
 }

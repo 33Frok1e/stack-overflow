@@ -1,5 +1,7 @@
+import Filter from '@/components/filters/Filter'
 import LocalSearch from '@/components/navigation/search/LocalSearch'
 import { Button } from '@/components/ui/button'
+import { HomePageFilters } from '@/constants/filters'
 import Link from 'next/link'
 import React from 'react'
 
@@ -24,7 +26,11 @@ const Home = () => {
           otherClasses='flex-1'
         />
 
-        {/* Filters */}
+        <Filter 
+          filters={HomePageFilters}
+          otherClasses='min-h-[56px] sm:min-w-[170px]'
+          containerClasses='hidden max-md:flex'
+        />
       </div>
     </>
   )

@@ -15,12 +15,11 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { AskQuestionSchema } from '@/lib/validations'
-import Editor from '../editor'
+import dynamic from "next/dynamic";
 
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
 });
-
 
 const QuestionForm = () => {
 

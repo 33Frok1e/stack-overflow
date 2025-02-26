@@ -5,23 +5,23 @@ import TagCard from "../cards/TagCard";
 
 const RightSidebar = () => {
   const hotQuestions = [
-    { _id: 1, title: "How do I use express as a custom server in NextJS?" },
-    { _id: 2, title: "Cascading Deletes in SQLAlchemy?" },
-    { _id: 3, title: "How to use Redux?" },
+    { _id: "1", title: "How do I use express as a custom server in NextJS?" },
+    { _id: "2", title: "Cascading Deletes in SQLAlchemy?" },
+    { _id: "3", title: "How to use Redux?" },
     {
-      _id: 4,
+      _id: "4",
       title:
         "Best practices for data fetching in a Next.js application with Server-Side Rendering (SSR)?",
     },
-    { _id: 5, title: "Redux Toolkit Not updating state as Expected?" },
+    { _id: "5", title: "Redux Toolkit Not updating state as Expected?" },
   ];
 
   const popularTags = [
-    { _id: 1, name: "react", totalQuestions: 100 },
-    { _id: 2, name: "javascript", totalQuestions: 200 },
-    { _id: 3, name: "typescript", totalQuestions: 150 },
-    { _id: 4, name: "nextjs", totalQuestions: 50 },
-    { _id: 5, name: "react-query", totalQuestions: 75 },
+    { _id: "1", name: "react", totalQuestions: 100 },
+    { _id: "2", name: "javascript", totalQuestions: 200 },
+    { _id: "3", name: "typescript", totalQuestions: 150 },
+    { _id: "4", name: "nextjs", totalQuestions: 50 },
+    { _id: "5", name: "react-query", totalQuestions: 75 },
   ]
 
   return (

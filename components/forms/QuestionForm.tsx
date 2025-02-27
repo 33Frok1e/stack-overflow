@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,12 +18,20 @@ import { AskQuestionSchema } from "@/lib/validations";
 import dynamic from "next/dynamic";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
 });
 
-const QuestionForm = () => {
+interface Params {
+  question?: Question;
+  isEdit?: boolean;
+}
+
+const QuestionForm = ({ question, isEdit = false }: Params) => {
+  const [isPending, startTransition] = useTransition();
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof AskQuestionSchema>>({
     resolver: zodResolver(AskQuestionSchema),
@@ -178,7 +186,23 @@ const QuestionForm = () => {
           )}
         />
 
-        <Button type="submit">Submit</Button>
+        <div className="mt-16 flex justify-end">
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="primary-gradient w-fit !text-light-900"
+          >
+            {isPending ? (
+              <>
+                <ReloadIcon className="mr-2 size-4 animate-spin" />
+                <span>Submitting</span>
+              </>
+            ) : (
+              <>{isEdit ? "Edit" : "Ask a Question"}</>
+            )}
+          </Button>
+        </div>
+        
       </form>
     </Form>
   );

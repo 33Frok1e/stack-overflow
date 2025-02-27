@@ -1,5 +1,5 @@
 "use client";
-import React, { useTransition } from "react";
+import React, { useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,19 +18,17 @@ import { AskQuestionSchema } from "@/lib/validations";
 import dynamic from "next/dynamic";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
-import { ReloadIcon } from "@radix-ui/react-icons";
+import { MDXEditorMethods } from "@mdxeditor/editor";
 
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
 });
 
-interface Params {
-  question?: Question;
-  isEdit?: boolean;
-}
+const type: string = 'create'
 
-const QuestionForm = ({ question, isEdit = false }: Params) => {
-  const [isPending, startTransition] = useTransition();
+const QuestionForm = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const editorRef = useRef<MDXEditorMethods>(null);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof AskQuestionSchema>>({
@@ -44,9 +42,15 @@ const QuestionForm = ({ question, isEdit = false }: Params) => {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof AskQuestionSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    setIsSubmitting(true);
+    
+    try {
+      
+    } catch (error) {
+      
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   const handleInputKeyDown = (
@@ -130,7 +134,7 @@ const QuestionForm = ({ question, isEdit = false }: Params) => {
               <FormControl className="mt-3.5">
                 <Editor
                   value={field.value}
-                  // editorRef={editorRef}
+                  editorRef={editorRef}
                   fieldChange={field.onChange}
                 />
               </FormControl>
@@ -186,22 +190,17 @@ const QuestionForm = ({ question, isEdit = false }: Params) => {
           )}
         />
 
-        <div className="mt-16 flex justify-end">
-          <Button
-            type="submit"
-            disabled={isPending}
-            className="primary-gradient w-fit !text-light-900"
-          >
-            {isPending ? (
-              <>
-                <ReloadIcon className="mr-2 size-4 animate-spin" />
-                <span>Submitting</span>
-              </>
-            ) : (
-              <>{isEdit ? "Edit" : "Ask a Question"}</>
-            )}
-          </Button>
-        </div>
+        <Button type='submit' className="primary-gradient w-fit !text-light-900" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <>
+              {type === 'edit' ? 'Editing...' : 'Posting...'}
+            </>
+          ) : (
+            <>
+              {type === 'edit' ? 'Edit Question' : 'Ask a Question'}
+            </>
+          )}
+        </Button>
         
       </form>
     </Form>

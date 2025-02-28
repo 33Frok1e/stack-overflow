@@ -1,16 +1,18 @@
 import { model, models, Schema, Document } from "mongoose";
 
 export interface IUser {
+  clearkId: string;
   name: string;
   username: string;
   email: string;
   password?: string;
   bio?: string;
-  image?: string;
+  picture?: string;
   location?: string;
-  portfolio?: string;
+  portfolioWebsite?: string;
   reputation?: number;
   saved: Schema.Types.ObjectId[];
+  joinedAt: Date;
 }
 
 export interface IUserDoc extends IUser, Document {}
@@ -21,13 +23,13 @@ const UserSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     password: {type: String, required: true},
     bio: { type: String },
-    image: { type: String, required: true },
+    picture: { type: String, required: true },
     location: { type: String },
-    portfolio: { type: String },
+    portfolioWebsite: { type: String },
     reputation: { type: Number, default: 0 },
     saved: [{ type: Schema.Types.ObjectId, ref: 'Question' }],
-  },
-  { timestamps: true }
+    joinedAt: { type: Date, default: Date.now },
+  }
 );
 
 const User = models?.User || model<IUser>("User", UserSchema);

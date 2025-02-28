@@ -19,6 +19,7 @@ import dynamic from "next/dynamic";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { MDXEditorMethods } from "@mdxeditor/editor";
+import { createQuestion } from "@/lib/actions/question.action";
 
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -41,13 +42,18 @@ const QuestionForm = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof AskQuestionSchema>) {
+  async function onSubmit(values: z.infer<typeof AskQuestionSchema>) {
     setIsSubmitting(true);
     
     try {
-      
+      await createQuestion({
+         title: values.title,
+         content: values.content,
+         tags: values.tags,
+         author: 
+      })
     } catch (error) {
-      
+      console.log(error)
     } finally {
       setIsSubmitting(false);
     }

@@ -20,6 +20,7 @@ import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { MDXEditorMethods } from "@mdxeditor/editor";
 import { createQuestion } from "@/lib/actions/question.action";
+import { useRouter, usePathname } from "next/navigation";
 
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -27,9 +28,15 @@ const Editor = dynamic(() => import("@/components/editor"), {
 
 const type: string = 'create'
 
-const QuestionForm = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+interface Props {
+  mongoUserId: string; 
+}
+
+const QuestionForm = ({ mongoUserId }: Props) => {
   const editorRef = useRef<MDXEditorMethods>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof AskQuestionSchema>>({
@@ -50,8 +57,13 @@ const QuestionForm = () => {
          title: values.title,
          content: values.content,
          tags: values.tags,
-         author: 
-      })
+         author: JSON.parse(mongoUserId),
+         path: pathname
+      });
+
+      // Navigate to home page
+      router.push('/');
+
     } catch (error) {
       console.log(error)
     } finally {

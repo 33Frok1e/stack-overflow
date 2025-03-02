@@ -5,53 +5,57 @@ import LocalSearch from "@/components/navigation/search/LocalSearch";
 import NoResults from "@/components/NoResults";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
+import { getQuestions } from "@/lib/actions/question.action";
 import Link from "next/link";
 import React from "react";
 
 
-const questions = [
-  {
-    _id: "1",
-    title: "Cascading deletes in SQLAlchemy",
-    tags: [
-      { _id: "1", name: "python" },
-      { _id: "2", name: "sql" },
-    ],
-    author: {
-      _id: "101",
-      name: "Krishna Rati",
-      picture: "https://example.com/avatar1.jpg",
-    },
-    upvotes: 10000,
-    views: 15000000,
-    answers: [
-      // { _id: "201", text: "You can use cascade='all, delete-orphan' in SQLAlchemy." },
-    ],
-    createdAt: new Date("2025-01-01T12:00:00.000Z"),
-  },
-  {
-    _id: "2",
-    title: "How to center a div?",
-    tags: [
-      { _id: "3", name: "css" },
-      { _id: "4", name: "html" },
-    ],
-    author: {
-      _id: "102",
-      name: "Krishna Rati",
-      picture: "https://example.com/avatar2.jpg",
-    },
-    upvotes: 10,
-    views: 100,
-    answers: [
-      // { _id: "202", text: "Use flexbox: display: flex; justify-content: center; align-items: center;" },
-    ],
-    createdAt: new Date("2025-01-01T12:00:00.000Z"),
-  },
-];
+// const questions = [
+//   {
+//     _id: "1",
+//     title: "Cascading deletes in SQLAlchemy",
+//     tags: [
+//       { _id: "1", name: "python" },
+//       { _id: "2", name: "sql" },
+//     ],
+//     author: {
+//       _id: "101",
+//       name: "Krishna Rati",
+//       picture: "https://example.com/avatar1.jpg",
+//     },
+//     upvotes: 10000,
+//     views: 15000000,
+//     answers: [
+//       // { _id: "201", text: "You can use cascade='all, delete-orphan' in SQLAlchemy." },
+//     ],
+//     createdAt: new Date("2025-01-01T12:00:00.000Z"),
+//   },
+//   {
+//     _id: "2",
+//     title: "How to center a div?",
+//     tags: [
+//       { _id: "3", name: "css" },
+//       { _id: "4", name: "html" },
+//     ],
+//     author: {
+//       _id: "102",
+//       name: "Krishna Rati",
+//       picture: "https://example.com/avatar2.jpg",
+//     },
+//     upvotes: 10,
+//     views: 100,
+//     answers: [
+//       // { _id: "202", text: "Use flexbox: display: flex; justify-content: center; align-items: center;" },
+//     ],
+//     createdAt: new Date("2025-01-01T12:00:00.000Z"),
+//   },
+// ];
 
 
-const Home = () => {
+const Home = async () => {
+
+  const result = await getQuestions({});
+  
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -82,8 +86,8 @@ const Home = () => {
       <HomeFilter />
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0
-          ? questions.map((question) => (
+        {result.questions.length > 0
+          ? result.questions.map((question) => (
             <QuestionCard 
               key={question._id} 
               _id={question._id}

@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AskQuestionSchema } from "@/lib/validations";
+import { QuestionSchema } from "@/lib/validations";
 import dynamic from "next/dynamic";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
@@ -39,23 +39,23 @@ const QuestionForm = ({ mongoUserId }: Props) => {
   const pathname = usePathname();
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof AskQuestionSchema>>({
-    resolver: zodResolver(AskQuestionSchema),
+  const form = useForm<z.infer<typeof QuestionSchema>>({
+    resolver: zodResolver(QuestionSchema),
     defaultValues: {
       title: "",
-      content: "",
+      explanation: "",
       tags: [],
     },
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof AskQuestionSchema>) {
+  async function onSubmit(values: z.infer<typeof QuestionSchema>) {
     setIsSubmitting(true);
     
     try {
       await createQuestion({
          title: values.title,
-         content: values.content,
+         content: values.explanation,
          tags: values.tags,
          author: JSON.parse(mongoUserId),
          path: pathname
@@ -142,7 +142,7 @@ const QuestionForm = ({ mongoUserId }: Props) => {
 
         <FormField
           control={form.control}
-          name="content"
+          name="title"
           render={({ field }) => (
             <FormItem className="flex flex-col w-full gap-3">
               <FormLabel className="paragraph-semibold text-dark400_light800">

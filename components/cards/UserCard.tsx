@@ -1,19 +1,31 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import { getTopInteractedTags } from "@/lib/actions/tag.action";
+import Image from "next/image";
+import Link from "next/link";
+import { Badge } from "../ui/badge";
+// import { IUser } from "@/database/user.model";
 import React from 'react'
-import { Badge } from '../ui/badge';
-import TagCard from './TagCard';
-import { getTopInteractedTags } from '@/lib/actions/tag.action';
+import TagCard from "./TagCard";
 
 interface Props {
-    _id: string;
+  // user: {
+  //   _id: IUser["_id"];
+  //   clerkId: IUser["clerkId"];
+  //   picture: IUser["picture"];
+  //   name: IUser["name"];
+  //   username: IUser["username"];
+  // };
+  user: {
+    _id: string; // Ensure _id is defined as a string
     clerkId: string;
     picture: string;
     name: string;
     username: string;
+  };
 }
+
 const UserCard = async ({ user }: Props) => {
   const interactedTags = await getTopInteractedTags({ userId: user._id });
+
   return (
     <Link
       href={`/profile/${user.clerkId}`}
@@ -41,11 +53,7 @@ const UserCard = async ({ user }: Props) => {
           {interactedTags.length > 0 ? (
             <div className="flex items-center gap-2">
               {interactedTags.map((tag) => (
-                <TagCard 
-                  key={tag._id} 
-                  _id={tag._id} 
-                  name={tag.name} 
-                />
+                <TagCard key={tag._id} _id={tag._id} name={tag.name} />
               ))}
             </div>
           ) : (
@@ -56,7 +64,7 @@ const UserCard = async ({ user }: Props) => {
         </div>
       </article>
     </Link>
-  )
-}
+  );
+};
 
-export default UserCard
+export default UserCard;

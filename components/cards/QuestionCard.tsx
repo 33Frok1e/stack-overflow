@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import TagCard from "./TagCard";
 import Metric from "../Metric";
-import { formatNumber, getTimeStamp } from "@/lib/utils";
+import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 
 interface QuestionProps {
   _id: string;
@@ -37,7 +37,7 @@ const QuestionCard = ({
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
         <div>
           <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
-            {getTimeStamp(createdAt)}
+            {getTimestamp(createdAt)}
           </span>
           <Link href={`/question/${_id}`}>
             <h3 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1">{title}</h3>
@@ -59,7 +59,7 @@ const QuestionCard = ({
           // imgUrl='/assets/icons/avatar.svg'
           alt='User'
           value={author.name}
-          title={` - asked ${getTimeStamp(createdAt)}`}
+          title={` - asked ${getTimestamp(createdAt)}`}
           textStyles='body-medium text-dark400_light700'
           href={`/profile/${author._id}`}
           isAuthor
@@ -68,21 +68,21 @@ const QuestionCard = ({
         <Metric
           imgUrl='/assets/icons/like.svg'
           alt='Upvotes'
-          value={formatNumber(upvotes)}
+          value={formatAndDivideNumber(upvotes)}
           title=' Votes'
           textStyles='small-medium text-dark400_light800'
         />
         <Metric
           imgUrl='/assets/icons/message.svg'
           alt='Message'
-          value={formatNumber(answers.length)}
+          value={formatAndDivideNumber(answers.length)}
           title=' Answers'
           textStyles='small-medium text-dark400_light800'
         />
         <Metric
           imgUrl='/assets/icons/eye.svg'
           alt='Eye'
-          value={formatNumber(views)}
+          value={formatAndDivideNumber(views)}
           title=' Views'
           textStyles='small-medium text-dark400_light800'
         />

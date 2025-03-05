@@ -12,7 +12,7 @@ import { getAllTags } from "@/lib/actions/tag.action";
 import { SearchParamsProps } from "@/types";
 import { Metadata } from "next";
 import Link from "next/link";
-import React from 'react'
+import React from "react";
 
 export const metadata: Metadata = {
   title: "Tags | Dev Overflow",
@@ -21,12 +21,31 @@ export const metadata: Metadata = {
 };
 
 const Page = async ({ searchParams }: SearchParamsProps) => {
+  // Await the searchParams promise
+  const resolvedSearchParams = await searchParams;
+
+  // Ensure searchQuery and filter are always strings or undefined
+  const searchQuery =
+    typeof resolvedSearchParams[QUERY_SEARCH_PARAMS_KEY] === "string"
+      ? resolvedSearchParams[QUERY_SEARCH_PARAMS_KEY]
+      : Array.isArray(resolvedSearchParams[QUERY_SEARCH_PARAMS_KEY])
+        ? resolvedSearchParams[QUERY_SEARCH_PARAMS_KEY][0] // Use the first element if it's an array
+        : undefined;
+
+  const filter =
+    typeof resolvedSearchParams[FILTER_SEARCH_PARAMS_KEY] === "string"
+      ? resolvedSearchParams[FILTER_SEARCH_PARAMS_KEY]
+      : Array.isArray(resolvedSearchParams[FILTER_SEARCH_PARAMS_KEY])
+        ? resolvedSearchParams[FILTER_SEARCH_PARAMS_KEY][0] // Use the first element if it's an array
+        : undefined;
+
   const result = await getAllTags({
-    searchQuery: searchParams[QUERY_SEARCH_PARAMS_KEY],
-    filter: searchParams[FILTER_SEARCH_PARAMS_KEY],
+    searchQuery,
+    filter,
     page:
-      searchParams && searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
-        ? +searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
+      resolvedSearchParams &&
+      resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
+        ? +resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
         : 1,
   });
 
@@ -81,8 +100,9 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
       <div className="mt-10">
         <Pagination
           pageNumber={
-            searchParams && searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
-              ? +searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
+            resolvedSearchParams &&
+            resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
+              ? +resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
               : 1
           }
           isNext={result.isNext}

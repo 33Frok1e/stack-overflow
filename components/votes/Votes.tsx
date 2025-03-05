@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import React from 'react';
 import { viewQuestion } from "@/lib/actions/interaction.action";
-import { toast } from "sonner";
+import toast from 'react-hot-toast'; // Updated import
 
 interface Props {
   type: string;
@@ -41,16 +41,14 @@ const Votes = ({
 
   const handleSave = useCallback(async () => {
     if (!userId) {
-      return toast("Please log in", {
-        description: "You must be logged in to perform this action",
-      });
+      return toast.error("Please log in"); // Updated to react-hot-toast
     }
     await toggleSaveQuestion({
       userId: JSON.parse(userId),
       questionId: JSON.parse(itemId),
       path: pathname,
     });
-    return toast(`Question ${!hasSaved ? "saved in" : "removed from"} your collection`);
+    return toast.success(`Question ${!hasSaved ? "saved in" : "removed from"} your collection`); // Updated to react-hot-toast
   }, [hasSaved, itemId, pathname, userId]);
 
   const handleVote = useCallback(
@@ -59,9 +57,7 @@ const Votes = ({
         return;
       }
       if (!userId) {
-        return toast("Please log in", {
-          description: "You must be logged in to perform this action",
-        });
+        return toast.error("Please log in"); // Updated to react-hot-toast
       }
       if (action === "upvote") {
         if (type === "Question") {
@@ -81,7 +77,7 @@ const Votes = ({
             path: pathname,
           });
         }
-        return toast(`Upvote ${!hasAlreadyUpvoted ? "successful" : "removed"}`);
+        return toast.success(`Upvote ${!hasAlreadyUpvoted ? "successful" : "removed"}`); // Updated to react-hot-toast
       }
 
       if (action === "downvote") {
@@ -102,7 +98,7 @@ const Votes = ({
             path: pathname,
           });
         }
-        return toast(`Downvote ${!hasAlreadyDownvoted ? "successful" : "removed"}`);
+        return toast.success(`Downvote ${!hasAlreadyDownvoted ? "successful" : "removed"}`); // Updated to react-hot-toast
       }
     },
     [

@@ -1,3 +1,5 @@
+'use client'
+
 import QuestionForm from '@/components/forms/QuestionForm'
 import { getUserById } from '@/lib/actions/user.action';
 import { useAuth } from '@clerk/nextjs';

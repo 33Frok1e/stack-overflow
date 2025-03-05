@@ -1,12 +1,13 @@
+import React from "react";
 import {
   ClerkProvider,
 } from "@clerk/nextjs";
 import "./globals.css";
-import React from "react";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/context/Theme";
+// import { Toaster } from "react-hot-toast"; 
 
 const inter = localFont({
   src: "./fonts/InterVF.ttf",
@@ -49,6 +50,7 @@ export default function RootLayout({
         >
           <ThemeProvider>
             {children}
+            {/* <Toaster />  */}
           </ThemeProvider>
         </ClerkProvider>
       </body>

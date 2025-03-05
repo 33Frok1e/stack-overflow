@@ -23,6 +23,7 @@ import React from 'react'
 import { MDXEditorMethods } from "@mdxeditor/editor";
 import dynamic from "next/dynamic";
 import { toast } from "sonner";
+// import toast from 'react-hot-toast';
 
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,

@@ -22,8 +22,7 @@ import { usePathname } from "next/navigation";
 import React from 'react'
 import { MDXEditorMethods } from "@mdxeditor/editor";
 import dynamic from "next/dynamic";
-import { toast } from "sonner";
-// import toast from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const Editor = dynamic(() => import("@/components/editor"), {
   ssr: false,
@@ -63,10 +62,10 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         const editor = editorRef.current as any;
         editor.setContent("");
       }
-      toast("Answer submitted successfully"); // Updated toast syntax
+      toast.success("Answer submitted successfully"); // Updated to react-hot-toast
     } catch (error) {
       console.error(error);
-      toast("Failed to submit answer"); // Updated toast syntax
+      toast.error("Failed to submit answer"); // Updated to react-hot-toast
     } finally {
       setIsSubmitting(false);
     }
@@ -90,10 +89,10 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         const editor = editorRef.current as any;
         editor.setContent(formattedAnswer);
       }
-      toast("Generated AI answer"); // Updated toast syntax
+      toast.success("Generated AI answer"); // Updated to react-hot-toast
     } catch (error) {
       console.error(error);
-      toast("Failed to generate AI answer"); // Updated toast syntax
+      toast.error("Failed to generate AI answer"); // Updated to react-hot-toast
     } finally {
       setSetIsSubmittingAI(false);
     }

@@ -12,16 +12,16 @@ import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
-import { Metadata } from "next";
+// import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export const metadata: Metadata = {
-  title: "Question | Dev Overflow",
-  description:
-    "View the question details and corresponding answers on Dev Overflow - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...",
-};
+// export const metadata: Metadata = {
+//   title: "Question | Dev Overflow",
+//   description:
+//     "View the question details and corresponding answers on Dev Overflow - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...",
+// };
 
 const Page = async ({ params, searchParams }: any) => {
   const { userId: clerkId } = useAuth();

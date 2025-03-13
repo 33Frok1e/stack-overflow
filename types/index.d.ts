@@ -44,9 +44,14 @@ export interface SearchParamsProps {
   searchParams: { [key: string]: string | string[] | undefined }; // ✅ No Promise
 }
 
+// export interface URLProps {
+//   params: { id: string };
+//   searchParams: Promise<{ [key: string]: string | undefined }>;
+// }
+
 export interface URLProps {
   params: { id: string };
-  searchParams: Promise<{ [key: string]: string | undefined }>;
+  searchParams: { [key: string]: string | string[] | undefined }; // ✅ Fix: No Promise
 }
 
 export interface BadgeCounts {

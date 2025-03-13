@@ -32,13 +32,17 @@ export interface ParamsProps {
   params: { id: string };
 }
 
-export interface SearchParamsProps {
-  searchParams: Promise<{ [key: string]: string | undefined }>;
-}
+// export interface SearchParamsProps {
+//   searchParams: Promise<{ [key: string]: string | undefined }>;
+// }
 
 // export interface SearchParamsProps {
 //   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 // }
+
+export interface SearchParamsProps {
+  searchParams: { [key: string]: string | string[] | undefined }; // ✅ No Promise
+}
 
 export interface URLProps {
   params: { id: string };

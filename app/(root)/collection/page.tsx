@@ -22,17 +22,29 @@ export const metadata: Metadata = {
 };
 
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const { userId } = auth();
+  const { userId } = await auth(); // ✅ Await auth()
 
   if (!userId) return null;
 
+  const searchQuery = Array.isArray(searchParams[QUERY_SEARCH_PARAMS_KEY])
+    ? searchParams[QUERY_SEARCH_PARAMS_KEY][0] // Take first element if it's an array
+    : searchParams[QUERY_SEARCH_PARAMS_KEY]; // Keep it as is if it's a string
+
+  const filter = Array.isArray(searchParams[FILTER_SEARCH_PARAMS_KEY])
+    ? searchParams[FILTER_SEARCH_PARAMS_KEY][0] // Take first element if it's an array
+    : searchParams[FILTER_SEARCH_PARAMS_KEY]; // Keep it as is if it's a string
+
+  const page =
+    searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY] &&
+    !Array.isArray(searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY])
+      ? +searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY] // Convert to number
+      : 1;
+
   const result = await getSavedQuestions({
     clerkId: userId,
-    searchQuery: searchParams[QUERY_SEARCH_PARAMS_KEY],
-    filter: searchParams[FILTER_SEARCH_PARAMS_KEY],
-    page: searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
-      ? +searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
-      : 1,
+    searchQuery, // Ensured to be string | undefined
+    filter, // Ensured to be string | undefined
+    page, // Ensured to be number
   });
 
   return (

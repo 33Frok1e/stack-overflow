@@ -22,29 +22,37 @@ export const metadata: Metadata = {
 };
 
 export default async function Home({ searchParams }: SearchParamsProps) {
-  const { userId } = await auth(); // ✅ Await auth()
+  const resolvedSearchParams = await searchParams;
+
+  const { userId } = await auth();
 
   if (!userId) return null;
 
-  const searchQuery = Array.isArray(searchParams[QUERY_SEARCH_PARAMS_KEY])
-    ? searchParams[QUERY_SEARCH_PARAMS_KEY][0] // Take first element if it's an array
-    : searchParams[QUERY_SEARCH_PARAMS_KEY]; // Keep it as is if it's a string
+  const searchQuery =
+    typeof resolvedSearchParams[QUERY_SEARCH_PARAMS_KEY] === "string"
+      ? resolvedSearchParams[QUERY_SEARCH_PARAMS_KEY]
+      : Array.isArray(resolvedSearchParams[QUERY_SEARCH_PARAMS_KEY])
+        ? resolvedSearchParams[QUERY_SEARCH_PARAMS_KEY][0]
+        : undefined;
 
-  const filter = Array.isArray(searchParams[FILTER_SEARCH_PARAMS_KEY])
-    ? searchParams[FILTER_SEARCH_PARAMS_KEY][0] // Take first element if it's an array
-    : searchParams[FILTER_SEARCH_PARAMS_KEY]; // Keep it as is if it's a string
+  const filter =
+    typeof resolvedSearchParams[FILTER_SEARCH_PARAMS_KEY] === "string"
+      ? resolvedSearchParams[FILTER_SEARCH_PARAMS_KEY]
+      : Array.isArray(resolvedSearchParams[FILTER_SEARCH_PARAMS_KEY])
+        ? resolvedSearchParams[FILTER_SEARCH_PARAMS_KEY][0]
+        : undefined;
 
   const page =
-    searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY] &&
-    !Array.isArray(searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY])
-      ? +searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY] // Convert to number
+    resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY] &&
+    !Array.isArray(resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY])
+      ? +resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
       : 1;
 
   const result = await getSavedQuestions({
     clerkId: userId,
-    searchQuery, // Ensured to be string | undefined
-    filter, // Ensured to be string | undefined
-    page, // Ensured to be number
+    searchQuery,
+    filter,
+    page,
   });
 
   return (
@@ -89,14 +97,7 @@ export default async function Home({ searchParams }: SearchParamsProps) {
         )}
       </div>
       <div className="mt-10">
-        <Pagination
-          pageNumber={
-            searchParams && searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
-              ? +searchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
-              : 1
-          }
-          isNext={result.isNext}
-        />
+        <Pagination pageNumber={page} isNext={result.isNext} />
       </div>
     </>
   );

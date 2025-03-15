@@ -37,21 +37,35 @@ export interface ParamsProps {
 // }
 
 // export interface SearchParamsProps {
-//   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+//   searchParams: { [key: string]: string | string[] | undefined }; // ✅ No Promise
 // }
 
-export interface SearchParamsProps {
-  searchParams: { [key: string]: string | string[] | undefined }; // ✅ No Promise
-}
+// export interface SearchParamsProps {
+//   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+// }
 
 // export interface URLProps {
 //   params: { id: string };
 //   searchParams: Promise<{ [key: string]: string | undefined }>;
 // }
 
+// export interface URLProps {
+//   params: { id: string };
+//   searchParams: { [key: string]: string | string[] | undefined }; // ✅ Fix: No Promise
+// }
+
+// export interface URLProps {
+//   params: Promise<{ id: string }>;
+//   searchParams: { [key: string]: string | string[] | undefined };
+// }
+
+export interface SearchParamsProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
 export interface URLProps {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined }; // ✅ Fix: No Promise
+  params: Promise<{ id: string }>; // params is now a Promise
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export interface BadgeCounts {

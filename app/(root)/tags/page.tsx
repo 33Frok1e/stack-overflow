@@ -20,33 +20,39 @@ export const metadata: Metadata = {
     "View the tags used on Dev Overflow - A community-driven platform for asking and answering programming questions. Get help, share knowledge and collaborate with developers from around the world. Explore topics in web developments, mobile app development, algorithms, data structures and more...",
 };
 
+interface Tag {
+  _id: string;
+  name: string;
+  questions: string[];
+}
+
 const Page = async ({ searchParams }: SearchParamsProps) => {
-  // Await the searchParams promise
   const resolvedSearchParams = await searchParams;
 
-  // Ensure searchQuery and filter are always strings or undefined
   const searchQuery =
     typeof resolvedSearchParams[QUERY_SEARCH_PARAMS_KEY] === "string"
       ? resolvedSearchParams[QUERY_SEARCH_PARAMS_KEY]
       : Array.isArray(resolvedSearchParams[QUERY_SEARCH_PARAMS_KEY])
-        ? resolvedSearchParams[QUERY_SEARCH_PARAMS_KEY][0] // Use the first element if it's an array
+        ? resolvedSearchParams[QUERY_SEARCH_PARAMS_KEY][0]
         : undefined;
 
   const filter =
     typeof resolvedSearchParams[FILTER_SEARCH_PARAMS_KEY] === "string"
       ? resolvedSearchParams[FILTER_SEARCH_PARAMS_KEY]
       : Array.isArray(resolvedSearchParams[FILTER_SEARCH_PARAMS_KEY])
-        ? resolvedSearchParams[FILTER_SEARCH_PARAMS_KEY][0] // Use the first element if it's an array
+        ? resolvedSearchParams[FILTER_SEARCH_PARAMS_KEY][0]
         : undefined;
+
+  const page =
+    resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY] &&
+    !Array.isArray(resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY])
+      ? +resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
+      : 1;
 
   const result = await getAllTags({
     searchQuery,
     filter,
-    page:
-      resolvedSearchParams &&
-      resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
-        ? +resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
-        : 1,
+    page,
   });
 
   return (
@@ -67,7 +73,7 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
       </div>
       <section className="mt-12 flex flex-wrap gap-4">
         {result.tags.length > 0 ? (
-          result.tags.map((tag) => (
+          result.tags.map((tag: Tag) => (
             <Link
               href={`/tags/${tag._id}`}
               key={tag._id}
@@ -81,7 +87,7 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
                 </div>
                 <p className="small-medium text-dark400_light500 mt-3.5">
                   <span className="body-semibold primary-text-gradient mr-2.5">
-                    {tag?.questions?.length}+
+                    {tag.questions.length}+
                   </span>{" "}
                   Questions
                 </p>
@@ -98,15 +104,7 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
         )}
       </section>
       <div className="mt-10">
-        <Pagination
-          pageNumber={
-            resolvedSearchParams &&
-            resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
-              ? +resolvedSearchParams[PAGE_NUMBER_SEARCH_PARAMS_KEY]
-              : 1
-          }
-          isNext={result.isNext}
-        />
+        <Pagination pageNumber={page} isNext={result.isNext} />
       </div>
     </>
   );

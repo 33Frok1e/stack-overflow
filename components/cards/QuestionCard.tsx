@@ -49,11 +49,13 @@ const QuestionCard = ({
             </h3>
           </Link>
         </div>
+        
         <SignedIn>
           {showActionButtons && (
             <EditDeleteAction type="Question" itemId={JSON.stringify(_id)} />
           )}
         </SignedIn>
+        
       </div>
       <div className="mt-3.5 flex flex-wrap gap-2">
         {tags.map((tag) => (

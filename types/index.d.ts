@@ -65,6 +65,7 @@ export interface SearchParamsProps {
 
 export interface URLProps {
   params: Promise<{ id: string }>; // params is now a Promise
+  // params: { id: string }; // params is now a plain object
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
